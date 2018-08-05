@@ -1,0 +1,48 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <script type="text/javascript" src="/function.js"></script>
+  <title>GreenHouse</title>
+  <script type="text/javascript">
+   function saveConfig(submit){
+    server = "/saveConfig?lightStart=" + val('lightStart') + '&lightStop=' + val('lightStop');
+	server = server + '&waterStart=' + val('waterStart') + '&waterStop=' + val('waterStart');
+    send_request(submit,server);
+    document.getElementById('lightStart').innerHTML = val('lightStart');
+	}
+	
+	function functionLightOn(submit){
+    server = "/functionLightOn?lightStatus=" + '1';
+    send_request(submit,server);
+    document.getElementById('lightStatus').innerHTML = val('lightStatus');
+	}
+	
+	function functionLightOff(submit){
+    server = "/functionLightOff?lightStatus=" + '0';
+    send_request(submit,server);
+    document.getElementById('lightStatus').innerHTML = val('lightStatus');
+	}
+	
+  </script>
+  </head>
+<body onload="load();">
+	<h1>Гидропонная установка</h1>
+	<p id="dateValue">Дата {{dateValue}}</p>
+	<p id="timeValue">Время {{timeValue}}</p>
+	
+	<p id="lightStatus">Значение освещения = {{lightStatus}}</p>
+	<p id="waterStatus">Значение орошения = {{waterStatus}}</p>
+	
+	<p><input type="submit" value="Включить освещение" onclick="functionLightOn(this);">
+	<p><input type="submit" value="Выключить освещение" onclick="functionLightOff(this);">
+	<p><button>Включить орошение</button>
+	<p><button>Выключить орошение</button>
+	<p>Время начала освещения</p><input id="lightStart" type="text" value="{{lightStart}}">
+	<p>Время окончания освещения</p><input id="lightStop" type="text" value="{{lightStop}}">
+	<p>Время начала полива</p><input id="waterStart" type="text" value="{{waterStart}}">
+	<p>Время окончания полива</p><input id="waterStop" type="text" value="{{waterStop}}">
+	<p><input type="submit" value="Сохранить настройки" onclick="saveConfig(this);"></p>
+</body>
+</html>
