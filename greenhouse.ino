@@ -17,6 +17,8 @@ ESP8266WebServer server(80);
 String ssid = "podlev";
 String password = "89278615058";
 
+int timeZone = 3; // Central European Time
+
 //интервал освещения в часах
 byte lightStart = 19; // [10,23]
 byte lightStop = 20;

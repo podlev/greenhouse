@@ -1,5 +1,5 @@
 static const char ntpServerName[] = "us.pool.ntp.org";
-const int timeZone = 3;     // Central European Time
+
 
 WiFiUDP Udp;
 unsigned int localPort = 8888;  // local port to listen for UDP packets

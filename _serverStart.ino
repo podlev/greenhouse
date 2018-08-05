@@ -4,6 +4,8 @@ void configJson() {
     json += "\"dateValue\":"+String(day());
 
     json += ", \"timeValue\":"+String(hour());
+
+    json += ", \"timeZone\":"+String(timeZone);
     
     json += ", \"waterStart\":"+String(waterStart);
     json += ", \"waterStop\":"+String(waterStop);
