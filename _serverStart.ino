@@ -24,6 +24,7 @@ void saveConfig() {
   waterStart = server.arg("waterStart").toInt();
   lightStop = server.arg("lightStop").toInt();
   waterStop = server.arg("waterStop").toInt();
+  timeZone = server.arg("timeZone").toInt();
   server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
 }
 

@@ -8,7 +8,7 @@
   <script type="text/javascript">
    function saveConfig(submit){
     server = "/saveConfig?lightStart=" + val('lightStart') + '&lightStop=' + val('lightStop');
-	server = server + '&waterStart=' + val('waterStart') + '&waterStop=' + val('waterStart');
+	server = server + '&waterStart=' + val('waterStart') + '&waterStop=' + val('waterStart') + '&timeZone=' + val('timeZone');;
     send_request(submit,server);
     document.getElementById('lightStart').innerHTML = val('lightStart');
 	}
