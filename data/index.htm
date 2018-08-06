@@ -8,7 +8,7 @@
   <script type="text/javascript">
    function saveConfig(submit){
     server = "/saveConfig?lightStart=" + val('lightStart') + '&lightStop=' + val('lightStop');
-	server = server + '&waterStart=' + val('waterStart') + '&waterStop=' + val('waterStart') + '&timeZone=' + val('timeZone');;
+	server = server + '&waterStart=' + val('waterStart') + '&waterStop=' + val('waterStart') + '&timeZone=' + val('timeZone');
     send_request(submit,server);
     document.getElementById('lightStart').innerHTML = val('lightStart');
 	}
@@ -25,6 +25,18 @@
     document.getElementById('lightStatus').innerHTML = val('lightStatus');
 	}
 	
+	function functionWaterOn(submit){
+    server = "/functionWaterOn?waterStatus=" + '1';
+    send_request(submit,server);
+    document.getElementById('waterStatus').innerHTML = val('waterStatus');
+	}
+	
+	function functionWaterOff(submit){
+    server = "/functionWaterOff?waterStatus=" + '0';
+    send_request(submit,server);
+    document.getElementById('waterStatus').innerHTML = val('waterStatus');
+	}
+	
   </script>
   </head>
 <body onload="load();">
@@ -39,8 +51,9 @@
 	
 	<p><input type="submit" value="Включить освещение" onclick="functionLightOn(this);">
 	<p><input type="submit" value="Выключить освещение" onclick="functionLightOff(this);">
-	<p><button>Включить орошение</button>
-	<p><button>Выключить орошение</button>
+	<p><input type="submit" value="Включить орошение" onclick="functionWaterOn(this);">
+	<p><input type="submit" value="Выключить орошение" onclick="functionWaterOff(this);">
+	
 	<p>Время начала освещения</p><input id="lightStart" type="text" value="{{lightStart}}">
 	<p>Время окончания освещения</p><input id="lightStop" type="text" value="{{lightStop}}">
 	<p>Время начала полива</p><input id="waterStart" type="text" value="{{waterStart}}">

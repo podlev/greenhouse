@@ -71,6 +71,8 @@ void serverStart(void){
   server.on("/saveConfig", saveConfig);
   server.on("/functionLightOn", functionLightOn);
   server.on("/functionLightOff", functionLightOff);
+  server.on("/functionWaterOn", functionWaterOn);
+  server.on("/functionWaterOff", functionWaterOff);
   
   server.begin();
   Serial.println("HTTP server started");

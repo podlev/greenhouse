@@ -6,6 +6,9 @@ void checkEvents() {
            updateTime(); 
            serverStart(); 
        }
+       else {
+           serverStart(); 
+       }
        NOWDAY = day();
     }
 
