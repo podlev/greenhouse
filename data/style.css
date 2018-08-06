@@ -1,0 +1,10 @@
+body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12pt;
+}
+
+div {
+	width: 90%; 
+    background: #fc0;
+    float: center; 
+}

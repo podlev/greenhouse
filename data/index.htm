@@ -3,6 +3,7 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="/style.css">
   <script type="text/javascript" src="/function.js"></script>
   <title>GreenHouse</title>
   <script type="text/javascript">
@@ -10,39 +11,41 @@
     server = "/updateConfig?lightStart=" + val('lightStart') + '&lightStop=' + val('lightStop');
 	server = server + '&waterStart=' + val('waterStart') + '&waterStop=' + val('waterStop') + '&timeZone=' + val('timeZone');
     send_request(submit,server);
-    document.getElementById('lightStart').innerHTML = val('lightStart');
+    document.getElementById('saveConfig').innerHTML = 'Сохранено!';
 	}
 	
 	function functionLightOn(submit){
     server = "/functionLightOn?lightStatus=" + '1';
     send_request(submit,server);
-    document.getElementById('lightStatus').innerHTML = val('lightStatus');
+    document.getElementById('lightStatus').innerHTML = 'Свет включен!';
 	}
 	
 	function functionLightOff(submit){
     server = "/functionLightOff?lightStatus=" + '0';
     send_request(submit,server);
-    document.getElementById('lightStatus').innerHTML = val('lightStatus');
+    document.getElementById('lightStatus').innerHTML = 'Свет выключен!';
 	}
 	
 	function functionWaterOn(submit){
     server = "/functionWaterOn?waterStatus=" + '1';
     send_request(submit,server);
-    document.getElementById('waterStatus').innerHTML = val('waterStatus');
+    document.getElementById('waterStatus').innerHTML = 'Орошение включено!';
 	}
 	
 	function functionWaterOff(submit){
     server = "/functionWaterOff?waterStatus=" + '0';
     send_request(submit,server);
-    document.getElementById('waterStatus').innerHTML = val('waterStatus');
+    document.getElementById('waterStatus').innerHTML = 'Орошение выключено!';
 	}
 	
   </script>
   </head>
 <body onload="load();">
+<div>
 	<h1>Настройки</h1>
 	<p>Имя WIFI <input id="ssid" type="text" value="{{ssid}}"></p>
 	<p>Пароль WIFI <input id="password" type="text" value="{{password}}"></p>
+	<p><input id="saveConfig" type="submit" value="Сохранить настройки" onclick="updateSsid(this);"></p>
 	<h1>Управление</h1>
 	<p id="dateValue">Дата <input id="dateValue" type="text" value="{{dateValue}}"></p>
 	<p id="timeValue">Время <input id="timeValue" type="text" value="{{timeValue}}"></p>
@@ -61,6 +64,7 @@
 	<p>Время окончания освещения <input id="lightStop" type="text" value="{{lightStop}}"></p>
 	<p>Время начала полива <input id="waterStart" type="text" value="{{waterStart}}"></p>
 	<p>Время окончания полива <input id="waterStop" type="text" value="{{waterStop}}"></p>
-	<p><input type="submit" value="Сохранить настройки" onclick="updateConfig(this);"></p>
+	<p><input id="saveConfig" type="submit" value="Сохранить настройки" onclick="updateConfig(this);"></p>
+</div>
 </body>
 </html>
