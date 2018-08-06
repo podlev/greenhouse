@@ -1,30 +1,34 @@
 void configJson() {
-    String json = "{";
-    
-    json += "\"dateValue\":"+String(day());
-
-    json += ", \"timeValue\":"+String(hour());
-
-    json += ", \"timeZone\":"+String(timeZone);
-    
-    json += ", \"waterStart\":"+String(waterStart);
-    json += ", \"waterStop\":"+String(waterStop);
-    json += ", \"lightStart\":"+String(lightStart);
-    json += ", \"lightStop\":"+String(lightStop);
-    
-    json += ", \"lightStatus\":"+String(lightStatus);
-    json += ", \"waterStatus\":"+String(waterStatus);
-    
-    json += "}";
-    server.send(200, "text/json", json);
+    String root = "{}";  // Формировать строку для отправки в браузер json формат
+    //{"SSDP":"SSDP-test","ssid":"home","password":"i12345678","ssidAP":"WiFi","passwordAP":"","ip":"192.168.0.101"}
+    // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
+    DynamicJsonBuffer jsonBuffer;
+    //  вызовите парсер JSON через экземпляр jsonBuffer
+    JsonObject& json = jsonBuffer.parseObject(root);
+    json["ssid"] = ssid;
+    json["password"] = password;
+    json["dateValue"] = String(day()) + "." + String(month()) + "." + String(year());
+    json["timeValue"] = String(hour()) + "." + String(minute()) + "." + String(second());
+    json["timeZone"] = timeZone;
+    json["waterStart"] = waterStart;
+    json["waterStop"] = waterStop;
+    json["lightStart"] = lightStart;
+    json["lightStop"] = lightStop;
+    json["lightStatus"] = lightStatus;
+    json["waterStatus"] = waterStatus;
+    root = "";
+    json.printTo(root);
+    server.send(200, "text/json", root);
 }
 
-void saveConfig() {
+void updateConfig() {
   lightStart = server.arg("lightStart").toInt(); // Получаем значение из запроса сохраняем в глобальной переменной
   waterStart = server.arg("waterStart").toInt();
   lightStop = server.arg("lightStop").toInt();
   waterStop = server.arg("waterStop").toInt();
   timeZone = server.arg("timeZone").toInt();
+  checkLightWater();
+  saveConfig();
   server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
 }
 
@@ -68,7 +72,7 @@ void serverStart(void){
 
   //get heap status, analog input value and all GPIO statuses in one json call
   server.on("/configs.json", configJson);
-  server.on("/saveConfig", saveConfig);
+  server.on("/updateConfig", updateConfig);
   server.on("/functionLightOn", functionLightOn);
   server.on("/functionLightOff", functionLightOff);
   server.on("/functionWaterOn", functionWaterOn);

@@ -8,6 +8,7 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include <FS.h>
+#include <ArduinoJson.h> 
 
 File fsUploadFile;
 
@@ -16,6 +17,7 @@ ESP8266WebServer server(80);
 
 String ssid = "podlev";
 String password = "89278615058";
+String jsonConfig = "{}";
 
 int timeZone = 3; // Central European Time
 
@@ -35,32 +37,7 @@ byte NOWHOUR;
 byte NOWMINUTE;
 byte NOWSECOND;
 
-void functionLightOff() {
-    lightStatus = 1;
-    digitalWrite(lightPin, lightStatus);
-    server.send(200, "text/plain", "Свет выключен!"); // отправляем ответ о выполнении
-    PRINTLOG("LIGHT is OFF!");
-}
-  
-void functionLightOn() {
-    lightStatus = 0;
-    digitalWrite(lightPin, lightStatus);
-    server.send(200, "text/plain", "Свет включен!"); // отправляем ответ о выполнении
-    PRINTLOG("LIGHT is ON!");
-}
 
-void functionWaterOff() {
-    waterStatus = 1;
-    digitalWrite(waterPin, waterStatus);
-    server.send(200, "text/plain", "Орошение выключено!"); // отправляем ответ о выполнении
-    PRINTLOG("WATER is OFF!");
-}
-void functionWaterOn() {
-    waterStatus = 0;
-    digitalWrite(waterPin, waterStatus);
-    server.send(200, "text/plain", "Орошение включено!"); // отправляем ответ о выполнении
-    PRINTLOG("WATER is ON!");
-}
 
 void setup() {
     //Настройка Pin
@@ -73,6 +50,7 @@ void setup() {
     //Ожидания подключения к интернет
     if (wifiSetup()) { 
         serverStart(); 
+        loadConfig();
             while (!updateTime()) {
             Serial.println("!!!");  
             delay(10000);
@@ -80,6 +58,7 @@ void setup() {
     }
     else {
       serverStart();
+      loadConfig();
     }
 
     NOWDAY = day();
@@ -87,19 +66,7 @@ void setup() {
     NOWMINUTE = minute();
     NOWSECOND = second();
 
-    if (hour() >= lightStart && hour() <= lightStop) {
-        functionLightOn();
-    }
-    else {
-        functionLightOff();
-    }
-
-    if (minute() >= waterStart && minute() <= waterStop) {
-        functionWaterOn();
-    }
-    else {
-        functionWaterOff();
-    }
+    checkLightWater();
     
 }
 
