@@ -10,24 +10,53 @@ void configJson() {
     json["dateValue"] = String(day()) + "." + String(month()) + "." + String(year());
     json["timeValue"] = String(hour()) + "." + String(minute()) + "." + String(second());
     json["timeZone"] = timeZone;
-    json["waterStart"] = waterStart;
-    json["waterStop"] = waterStop;
-    json["lightStart"] = lightStart;
-    json["lightStop"] = lightStop;
-    json["lightStatus"] = lightStatus;
-    json["waterStatus"] = waterStatus;
+    json["waterStartH"] = waterStartH;
+    json["waterStopH"] = waterStopH;
+    json["waterStartM"] = waterStartM;
+    json["waterStopM"] = waterStopM;
+    json["lightStartH"] = lightStartH;
+    json["lightStopH"] = lightStopH;
+    json["lightStartM"] = lightStartM;
+    json["lightStopM"] = lightStopM;
+    if (lightStatus == 1) {
+      json["lightStatus"] = "Оcвещение выключено.";
+    }
+    else {
+      json["lightStatus"] = "Оcвещение включено.";
+    }
+    if (waterStatus == 1) {
+      json["waterStatus"] = "Полив выключен.";
+    }
+    else {
+      json["waterStatus"] = "Полив включен.";
+    }
+    
     root = "";
     json.printTo(root);
     server.send(200, "text/json", root);
 }
 
-void updateConfig() {
-  lightStart = server.arg("lightStart").toInt(); // Получаем значение из запроса сохраняем в глобальной переменной
-  waterStart = server.arg("waterStart").toInt();
-  lightStop = server.arg("lightStop").toInt();
-  waterStop = server.arg("waterStop").toInt();
+void updateWaterLight() {
+  lightStartH = server.arg("lightStartH").toInt(); // Получаем значение из запроса сохраняем в глобальной переменной
+  lightStopH = server.arg("lightStopH").toInt();
+  lightStartM = server.arg("lightStartM").toInt();
+  lightStopM = server.arg("lightStopM").toInt();
+  
+  waterStartH = server.arg("waterStartH").toInt();
+  waterStopH = server.arg("waterStopH").toInt();
+  waterStartM = server.arg("waterStartM").toInt();
+  waterStopM = server.arg("waterStopM").toInt();
   timeZone = server.arg("timeZone").toInt();
+  
   checkLightWater();
+  saveConfig();
+  server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+}
+
+
+void updateSettings() {
+  timeZone = server.arg("timeZone").toInt();
+  
   saveConfig();
   server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
 }
@@ -72,7 +101,8 @@ void serverStart(void){
 
   //get heap status, analog input value and all GPIO statuses in one json call
   server.on("/configs.json", configJson);
-  server.on("/updateConfig", updateConfig);
+  server.on("/updateWaterLight", updateWaterLight);
+  server.on("/updateSettings", updateSettings);
   server.on("/functionLightOn", functionLightOn);
   server.on("/functionLightOff", functionLightOff);
   server.on("/functionWaterOn", functionWaterOn);

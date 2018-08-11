@@ -7,35 +7,39 @@
   <script type="text/javascript" src="/function.js"></script>
   <title>GreenHouse</title>
   <script type="text/javascript">
-   function updateConfig(submit){
-    server = "/updateConfig?lightStart=" + val('lightStart') + '&lightStop=' + val('lightStop');
-	server = server + '&waterStart=' + val('waterStart') + '&waterStop=' + val('waterStop') + '&timeZone=' + val('timeZone');
+   function updateWaterLight(submit){
+    server = "/updateWaterLight?lightStartH=" + val('lightStartH') + '&lightStopH=' + val('lightStopH');
+	server = server + '&lightStartM=' + val('lightStartM') + '&lightStopM=' + val('lightStopM');
+	server = server + '&waterStartH=' + val('waterStartH') + '&waterStopH=' + val('waterStopH');
+	server = server + '&waterStartM=' + val('waterStartM') + '&waterStopM=' + val('waterStopM');
     send_request(submit,server);
-    document.getElementById('saveConfig').innerHTML = 'Сохранено!';
+    document.getElementById('updateWaterLight').innerHTML = 'Сохранено!';
+	document.getElementById('waterStatus').innerHTML = waterStatus;
+	document.getElementById('lightStatus').innerHTML = lightStatus;
 	}
-	
+
 	function functionLightOn(submit){
     server = "/functionLightOn?lightStatus=" + '1';
     send_request(submit,server);
-    document.getElementById('lightStatus').innerHTML = 'Свет включен!';
+    document.getElementById('lightStatus').innerHTML = 'Оcвещение включено.';
 	}
 	
 	function functionLightOff(submit){
     server = "/functionLightOff?lightStatus=" + '0';
     send_request(submit,server);
-    document.getElementById('lightStatus').innerHTML = 'Свет выключен!';
+    document.getElementById('lightStatus').innerHTML = 'Оcвещение выключено.';
 	}
 	
 	function functionWaterOn(submit){
     server = "/functionWaterOn?waterStatus=" + '1';
     send_request(submit,server);
-    document.getElementById('waterStatus').innerHTML = 'Орошение включено!';
+    document.getElementById('waterStatus').innerHTML = 'Полив включен.';
 	}
 	
 	function functionWaterOff(submit){
     server = "/functionWaterOff?waterStatus=" + '0';
     send_request(submit,server);
-    document.getElementById('waterStatus').innerHTML = 'Орошение выключено!';
+    document.getElementById('waterStatus').innerHTML = 'Полив выключен.';
 	}
 	
   </script>
@@ -45,26 +49,28 @@
 	<h1>Настройки</h1>
 	<p>Имя WIFI <input id="ssid" type="text" value="{{ssid}}"></p>
 	<p>Пароль WIFI <input id="password" type="text" value="{{password}}"></p>
-	<p><input id="saveConfig" type="submit" value="Сохранить настройки" onclick="updateSsid(this);"></p>
-	<h1>Управление</h1>
 	<p id="dateValue">Дата <input id="dateValue" type="text" value="{{dateValue}}"></p>
 	<p id="timeValue">Время <input id="timeValue" type="text" value="{{timeValue}}"></p>
 	
 	<p>Временная зона <input id="timeZone" type="text" value="{{timeZone}}"></p>
+	<h1>Управление</h1>
 	
-	<p id="lightStatus">Значение освещения <input id="dateValue" type="text" value="{{lightStatus}}"></p>
-	<p id="waterStatus">Значение орошения <input id="dateValue" type="text" value="{{waterStatus}}"></p>
+	
+	<p id="lightStatus">{{lightStatus}}</p>
+	<p id="waterStatus">{{waterStatus}}</p>
 	
 	<p><input type="submit" value="Включить освещение" onclick="functionLightOn(this);">
 	<input type="submit" value="Выключить освещение" onclick="functionLightOff(this);"></p>
 	<p><input type="submit" value="Включить орошение" onclick="functionWaterOn(this);">
 	<input type="submit" value="Выключить орошение" onclick="functionWaterOff(this);"></p>
 	
-	<p>Время начала освещения <input id="lightStart" type="text" value="{{lightStart}}"></p>
-	<p>Время окончания освещения <input id="lightStop" type="text" value="{{lightStop}}"></p>
-	<p>Время начала полива <input id="waterStart" type="text" value="{{waterStart}}"></p>
-	<p>Время окончания полива <input id="waterStop" type="text" value="{{waterStop}}"></p>
-	<p><input id="saveConfig" type="submit" value="Сохранить настройки" onclick="updateConfig(this);"></p>
+	<h3>Интервалы работы освещения</h3>
+	<p>ЧЧ <input id="lightStartH" size="2" type="text" value="{{lightStartH}}"> : <input id="lightStopH" size="2" type="text" value="{{lightStopH}}">
+	ММ <input id="lightStartM" size="2" type="text" value="{{lightStartM}}"> : <input id="lightStopM" size="2" type="text" value="{{lightStopM}}"></p>
+	<h3>Интервалы работы полива</h3>
+	<p>ЧЧ <input id="waterStartH" size="2" type="text" value="{{waterStartH}}"> : <input id="waterStopH" size="2" type="text" value="{{waterStopH}}">
+	ММ <input id="waterStartM" size="2" type="text" value="{{waterStartM}}"> : <input id="waterStopM" size="2" type="text" value="{{waterStopM}}"></p>
+	<p><input id="updateWaterLight" type="submit" value="Сохранить настройки" onclick="updateWaterLight(this);"></p>
 </div>
 </body>
 </html>

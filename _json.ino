@@ -29,10 +29,14 @@ bool loadConfig() {
     ssid = root["ssid"].as<String>(); // Так получаем строку
     password = root["password"].as<String>();
     timeZone = root["timeZone"];               // Так получаем число
-    waterStart = root["waterStart"];
-    waterStop = root["waterStop"];
-    lightStart = root["lightStart"];
-    lightStop = root["lightStop"];
+    waterStartH = root["waterStartH"];
+    waterStopH = root["waterStopH"];
+    waterStartM = root["waterStartM"];
+    waterStopM = root["waterStopM"];
+    lightStartH = root["lightStartH"];
+    lightStopH = root["lightStopH"];
+    lightStartM = root["lightStartM"];
+    lightStopM = root["lightStopM"];
     return true;
 }
 
@@ -46,10 +50,14 @@ bool saveConfig() {
   json["ssid"] = ssid;
   json["password"] = password;
   json["timeZone"] = timeZone;
-  json["waterStart"] = waterStart;
-  json["waterStop"] = waterStop;
-  json["lightStart"] = lightStart;
-  json["lightStop"] = lightStop;
+  json["waterStartH"] = waterStartH;
+  json["waterStopH"] = waterStopH;
+  json["waterStartM"] = waterStartM;
+  json["waterStopM"] = waterStopM;
+  json["lightStartH"] = lightStartH;
+  json["lightStopH"] = lightStopH;
+  json["lightStartM"] = lightStartM;
+  json["lightStopM"] = lightStopM;
   // Помещаем созданный json в глобальную переменную json.printTo(jsonConfig);
   json.printTo(jsonConfig);
   // Открываем файл для записи

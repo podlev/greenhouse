@@ -1,17 +1,26 @@
 void checkLightWater() {
-if (hour() >= lightStart && hour() <= lightStop) {
-        functionLightOn();
+  if (hour() >= lightStartH && hour() <= lightStopH) {
+    if (minute() >= lightStartM && minute() <= lightStopM) {
+      functionLightOn();      
     }
     else {
-        functionLightOff();
+      functionLightOff();
     }
-
-    if (minute() >= waterStart && minute() <= waterStop) {
-        functionWaterOn();
+  }
+  else {
+    functionLightOff();
+  }
+  if (hour() >= waterStartH && hour() <= waterStopH) {
+    if (minute() >= waterStartM && minute() <= waterStopM) {
+       functionWaterOn();
     }
     else {
-        functionWaterOff();
+       functionWaterOff();
     }
+  }
+  else {
+    functionWaterOff();
+  }
 }
 
 void functionLightOff() {

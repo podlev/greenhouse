@@ -21,13 +21,17 @@ String jsonConfig = "{}";
 
 int timeZone = 3; // Central European Time
 
-//интервал освещения в часах
-byte lightStart = 19; // [10,23]
-byte lightStop = 20;
+//интервал освещения
+byte lightStartH = 19; 
+byte lightStopH = 23;
+byte lightStartM = 0; 
+byte lightStopM = 60;
 
-//интервал полива в минутах
-byte waterStart = 0; //[0,15]
-byte waterStop = 40;
+//интервал полива
+byte waterStartH = 0; 
+byte waterStopH = 23;
+byte waterStartM = 0; 
+byte waterStopM = 10;
 
 byte lightStatus;
 byte waterStatus;
@@ -35,9 +39,6 @@ byte waterStatus;
 byte NOWDAY;
 byte NOWHOUR;
 byte NOWMINUTE;
-byte NOWSECOND;
-
-
 
 void setup() {
     //Настройка Pin
@@ -64,10 +65,8 @@ void setup() {
     NOWDAY = day();
     NOWHOUR = hour();
     NOWMINUTE = minute();
-    NOWSECOND = second();
 
     checkLightWater();
-    
 }
 
 
