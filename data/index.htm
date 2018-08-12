@@ -7,8 +7,26 @@
   <script type="text/javascript" src="/function.js"></script>
   <title>GreenHouse</title>
   <script type="text/javascript">
+	function restart(submit) {
+		if (confirm('Потребуется перезагрузка. Ок?')) {
+			server = "/restart?device=ok";
+			send_request(submit,server);
+		return true;
+		} else {
+			return false;
+		}
+	}
+  
+    function updateSettings(submit){
+    server = '/updateSettings?ssid=' + val('ssid') + '&password' + val('password');
+	server = server + "&dateValue=" + val('dateValue') + '&timeValue=' + val('timeValue') + '&timeZone=' + val('timeZone');
+	send_request(submit,server);
+    document.getElementById('updateWaterLight').innerHTML = 'Сохранено!';
+	load();
+	}
+  
    function updateWaterLight(submit){
-    server = "/updateWaterLight?lightStartH=" + val('lightStartH') + '&lightStopH=' + val('lightStopH');
+    server = '/updateWaterLight?lightStartH=' + val('lightStartH') + '&lightStopH=' + val('lightStopH');
 	server = server + '&lightStartM=' + val('lightStartM') + '&lightStopM=' + val('lightStopM');
 	server = server + '&waterStartH=' + val('waterStartH') + '&waterStopH=' + val('waterStopH');
 	server = server + '&waterStartM=' + val('waterStartM') + '&waterStopM=' + val('waterStopM');
@@ -35,7 +53,7 @@
     document.getElementById('waterStatus').innerHTML = 'Полив включен.';
 	}
 	
-	function functionWaterOff(submit){
+	function functionWaterOff(submit) {
     server = "/functionWaterOff?waterStatus=" + '0';
     send_request(submit,server);
     document.getElementById('waterStatus').innerHTML = 'Полив выключен.';
@@ -47,11 +65,11 @@
 <div>
 	<h1>Настройки</h1>
 	<p>Имя WIFI <input id="ssid" type="text" value="{{ssid}}"></p>
-	<p>Пароль WIFI <input id="password" type="text" value="{{password}}"></p>
-	<p id="dateValue">Дата <input id="dateValue" type="text" value="{{dateValue}}"></p>
-	<p id="timeValue">Время <input id="timeValue" type="time" value="{{timeValue}}"></p>
-	
+	<p>Пароль WIFI <input id="password" type="password" value="{{password}}"></p>
+	<p id="dateValue">Дата <input id="dateValue" type="date" value="{{year}}-{{month}}-{{day}}"></p>
+	<p id="timeValue">Время <input id="timeValue" type="time" value="{{hour}}:{{minute}}"></p>
 	<p>Временная зона <input id="timeZone" type="text" value="{{timeZone}}"></p>
+	<p><input id="updateSettings" type="submit" value="Сохранить настройки" onclick="updateSettings(this);"></p>
 	<h1>Управление</h1>
 	
 	
@@ -70,6 +88,7 @@
 	<p>Часы <input id="waterStartH" size="2" type="text" value="{{waterStartH}}"> : <input id="waterStopH" size="2" type="text" value="{{waterStopH}}">
 	Минуты <input id="waterStartM" size="2" type="text" value="{{waterStartM}}"> : <input id="waterStopM" size="2" type="text" value="{{waterStopM}}"></p>
 	<p><input id="updateWaterLight" type="submit" value="Сохранить настройки" onclick="updateWaterLight(this);"></p>
+	<p><input id="restartDevice" type="submit" value="Перезагрузить устройство" onclick="restart	(this);"></p>
 </div>
 </body>
 </html>

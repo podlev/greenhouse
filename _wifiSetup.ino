@@ -15,12 +15,10 @@ bool wifiSetup() {
     WiFi.mode(WIFI_AP);
     WiFi.softAPConfig(apIP, apIP, IPAddress(255, 255, 255, 0));
     WiFi.softAP(ssid.c_str(),"");
-    return false;   
   }
   else {
     Serial.print("IP address: ");
     Serial.println(WiFi.localIP());
-    return true;
   }
 }
 

@@ -63,7 +63,7 @@ bool saveConfig() {
   // Открываем файл для записи
   File configFile = SPIFFS.open("/config.json", "w");
   if (!configFile) {
-    //Serial.println("Failed to open config file for writing");
+    Serial.println("Failed to open config file for writing");
     configFile.close();
     return false;
   }

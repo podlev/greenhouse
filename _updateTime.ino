@@ -9,20 +9,23 @@ void sendNTPpacket(IPAddress &address);
 
 
 
-bool updateTime()
+void updateTime()
 {
+  byte tries = 20;
   Udp.begin(localPort);
   setSyncProvider(getNtpTime);
   setSyncInterval(300);
 
-  if (timeStatus() != timeNotSet) {
-    Serial.println("Connetcted to NTP.");
-    return true;
+  while (timeStatus() == timeNotSet && tries--) {
+    delay(500);
+    Serial.print(".");
     }
+  if (timeStatus() != timeNotSet)  {
+    Serial.println("Connetcted to NTP");
+  }
   else {
-    Serial.println("Not connetcted to NTP.");
-    return false;
-    }
+    Serial.println("Not connected to NTP");
+  }
 }
 
 const int NTP_PACKET_SIZE = 48; // NTP time is in the first 48 bytes of message

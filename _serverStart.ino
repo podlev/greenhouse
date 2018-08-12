@@ -1,4 +1,13 @@
-void configJson() {
+String toFormat(int value) {
+  if (value < 10) {
+    return '0' + String(value); 
+  }
+  else {
+    return String(value);
+  }
+}
+
+void settings() {
     String root = "{}";  // Формировать строку для отправки в браузер json формат
     //{"SSDP":"SSDP-test","ssid":"home","password":"i12345678","ssidAP":"WiFi","passwordAP":"","ip":"192.168.0.101"}
     // Резервируем память для json обекта буфер может рости по мере необходимти, предпочтительно для ESP8266
@@ -7,8 +16,11 @@ void configJson() {
     JsonObject& json = jsonBuffer.parseObject(root);
     json["ssid"] = ssid;
     json["password"] = password;
-    json["dateValue"] = String(day()) + "." + String(month()) + "." + String(year());
-    json["timeValue"] = String(hour()) + "." + String(minute()) + "." + String(second());
+    json["day"] = toFormat(day());
+    json["month"] = toFormat(month());
+    json["year"] = year();
+    json["hour"] = toFormat(hour());
+    json["minute"] = toFormat(minute());
     json["timeZone"] = timeZone;
     json["waterStartH"] = waterStartH;
     json["waterStopH"] = waterStopH;
@@ -46,7 +58,7 @@ void updateWaterLight() {
   waterStopH = server.arg("waterStopH").toInt();
   waterStartM = server.arg("waterStartM").toInt();
   waterStopM = server.arg("waterStopM").toInt();
-  timeZone = server.arg("timeZone").toInt();
+  
   
   checkLightWater();
   saveConfig();
@@ -55,11 +67,27 @@ void updateWaterLight() {
 
 
 void updateSettings() {
+  ssid =  server.arg("ssid");
+  password = server.arg("password");
   timeZone = server.arg("timeZone").toInt();
-  
+  Serial.println(server.arg("dateValue"));
+  Serial.println(server.arg("timeValue"));
   saveConfig();
   server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
 }
+
+void restartDevice  () {
+  String restart = server.arg("device");          // Получаем значение device из запроса
+  if (restart == "ok") {                         // Если значение равно Ок
+    server.send(200, "text / plain", "Reset OK"); // Oтправляем ответ Reset OK
+    ESP.restart();                                // перезагружаем модуль
+  }
+  else {                                        // иначе
+    server.send(200, "text / plain", "No Reset"); // Oтправляем ответ No Reset
+  }
+}
+
+
 
 void serverStart(void){
   
@@ -67,16 +95,7 @@ void serverStart(void){
     Serial.println("MDNS responder started");
   }
 
-  SPIFFS.begin();
-  {
-    Dir dir = SPIFFS.openDir("/");
-    while (dir.next()) {    
-      String fileName = dir.fileName();
-      size_t fileSize = dir.fileSize();
-      Serial.printf("FS File: %s, size: %s\n", fileName.c_str(), formatBytes(fileSize).c_str());
-    }
-    Serial.printf("\n");
-  }
+  
 
   
   server.on("/list", HTTP_GET, handleFileList);
@@ -100,9 +119,10 @@ void serverStart(void){
   });
 
   //get heap status, analog input value and all GPIO statuses in one json call
-  server.on("/configs.json", configJson);
+  server.on("/settings", settings);
   server.on("/updateWaterLight", updateWaterLight);
   server.on("/updateSettings", updateSettings);
+  server.on("/restart", restartDevice);
   server.on("/functionLightOn", functionLightOn);
   server.on("/functionLightOff", functionLightOff);
   server.on("/functionWaterOn", functionWaterOn);

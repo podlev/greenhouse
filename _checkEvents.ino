@@ -2,19 +2,11 @@ void checkEvents() {
   
     //Проверка раз в день
     if (NOWDAY != day()) {
-        if (wifiSetup()) { 
-        serverStart(); 
-        loadConfig();
-            while (!updateTime()) {
-            Serial.println("!!!");  
-            delay(10000);
-          }
-       } 
-       else {
-           serverStart(); 
-           loadConfig();
-       }
-       NOWDAY = day();
+            spiffsStart();
+            loadConfig();
+            wifiSetup();
+            updateTime();
+            serverStart();
     }
 
     //Проверка раз в минуту

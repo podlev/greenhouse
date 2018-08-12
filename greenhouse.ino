@@ -48,20 +48,13 @@ void setup() {
     digitalWrite(waterPin, 1);
     //Монитор порта
     Serial.begin(115200);
-    //Ожидания подключения к интернет
-    if (wifiSetup()) { 
-        serverStart(); 
-        loadConfig();
-            while (!updateTime()) {
-            Serial.println("!!!");  
-            delay(10000);
-        }
-    }
-    else {
-      serverStart();
-      loadConfig();
-    }
-
+    
+    spiffsStart();
+    loadConfig();
+    wifiSetup();
+    updateTime();
+    serverStart();
+    
     NOWDAY = day();
     NOWHOUR = hour();
     NOWMINUTE = minute();
