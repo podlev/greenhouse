@@ -11,15 +11,10 @@ void sendNTPpacket(IPAddress &address);
 
 void updateTime()
 {
-  byte tries = 20;
   Udp.begin(localPort);
   setSyncProvider(getNtpTime);
   setSyncInterval(300);
 
-  while (timeStatus() == timeNotSet && tries--) {
-    delay(500);
-    Serial.print(".");
-    }
   if (timeStatus() != timeNotSet)  {
     Serial.println("Connetcted to NTP");
   }

@@ -16,12 +16,18 @@
 			return false;
 		}
 	}
+	
+	function updateTimeM(submit) {
+		server = "/updateTimeM?dateValue=" + val("dateValue") + "&timeValue=" + val("timeValue") + "&timeZone=" + val("timeZone");
+		send_request(submit,server);
+		document.getElementById('updateTimeM').innerHTML = 'Сохранить настройки';
+		load();
+	}
   
     function updateSettings(submit){
-    server = '/updateSettings?ssid=' + val('ssid') + '&password' + val('password');
-	server = server + "&dateValue=" + val('dateValue') + '&timeValue=' + val('timeValue') + '&timeZone=' + val('timeZone');
+    server = '/updateSettings?ssid=' + val('ssid') + '&password=' + encodeURIComponent(val('password'));
 	send_request(submit,server);
-    document.getElementById('updateWaterLight').innerHTML = 'Сохранено!';
+    document.getElementById('updateSettings').innerHTML = 'Сохранить настройки';
 	load();
 	}
   
@@ -31,7 +37,7 @@
 	server = server + '&waterStartH=' + val('waterStartH') + '&waterStopH=' + val('waterStopH');
 	server = server + '&waterStartM=' + val('waterStartM') + '&waterStopM=' + val('waterStopM');
     send_request(submit,server);
-    document.getElementById('updateWaterLight').innerHTML = 'Сохранено!';
+    document.getElementById('updateWaterLight').innerHTML = 'Сохранить настройки';
 	load();
 	}
 
@@ -66,10 +72,11 @@
 	<h1>Настройки</h1>
 	<p>Имя WIFI <input id="ssid" type="text" value="{{ssid}}"></p>
 	<p>Пароль WIFI <input id="password" type="password" value="{{password}}"></p>
-	<p id="dateValue">Дата <input id="dateValue" type="date" value="{{year}}-{{month}}-{{day}}"></p>
-	<p id="timeValue">Время <input id="timeValue" type="time" value="{{hour}}:{{minute}}"></p>
-	<p>Временная зона <input id="timeZone" type="text" value="{{timeZone}}"></p>
 	<p><input id="updateSettings" type="submit" value="Сохранить настройки" onclick="updateSettings(this);"></p>
+	<p>Дата <input id="dateValue" type="date" value="{{year}}-{{month}}-{{day}}"></p>
+	<p>Время <input id="timeValue" type="time" value="{{hour}}:{{minute}}"></p>
+	<p>Временная зона <input id="timeZone" type="text" value="{{timeZone}}"></p>
+	<p><input id="updateTimeM" type="submit" value="Сохранить настройки" onclick="updateTimeM(this);"></p>
 	<h1>Управление</h1>
 	
 	

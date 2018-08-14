@@ -7,6 +7,28 @@ String toFormat(int value) {
   }
 }
 
+void updateTimeM() {
+  timeZone = server.arg("timeZone").toInt();
+  Serial.println(server.arg("timeValue"));
+  Serial.println(server.arg("dateValue"));
+  byte hh = server.arg("timeValue").substring(0,2).toInt();
+  byte mm = server.arg("timeValue").substring(3,5).toInt();
+  byte dd = server.arg("dateValue").substring(0,4).toInt();
+  byte mo = server.arg("dateValue").substring(5,7).toInt();
+  byte yyyy = server.arg("dateValue").substring(8).toInt();
+  
+
+  Serial.println(hh);
+  Serial.println(mm);
+  Serial.println(dd);
+  Serial.println(mo);
+  Serial.println(yyyy);
+  
+  saveConfig();
+  server.send(200, "text/plain", "Сохранено!"); // отправляем ответ о выполнении
+}
+
+
 void settings() {
     String root = "{}";  // Формировать строку для отправки в браузер json формат
     //{"SSDP":"SSDP-test","ssid":"home","password":"i12345678","ssidAP":"WiFi","passwordAP":"","ip":"192.168.0.101"}
@@ -62,18 +84,15 @@ void updateWaterLight() {
   
   checkLightWater();
   saveConfig();
-  server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+  server.send(200, "text/plain", "Сохранено!"); // отправляем ответ о выполнении
 }
 
 
 void updateSettings() {
   ssid =  server.arg("ssid");
   password = server.arg("password");
-  timeZone = server.arg("timeZone").toInt();
-  Serial.println(server.arg("dateValue"));
-  Serial.println(server.arg("timeValue"));
   saveConfig();
-  server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+  server.send(200, "text/plain", "Сохранено!"); // отправляем ответ о выполнении
 }
 
 void restartDevice  () {
@@ -122,6 +141,7 @@ void serverStart(void){
   server.on("/settings", settings);
   server.on("/updateWaterLight", updateWaterLight);
   server.on("/updateSettings", updateSettings);
+  server.on("/updateTimeM", updateTimeM);
   server.on("/restart", restartDevice);
   server.on("/functionLightOn", functionLightOn);
   server.on("/functionLightOff", functionLightOff);
