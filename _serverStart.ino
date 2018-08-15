@@ -16,15 +16,9 @@ void updateTimeM() {
   byte dd = server.arg("dateValue").substring(0,4).toInt();
   byte mo = server.arg("dateValue").substring(5,7).toInt();
   byte yyyy = server.arg("dateValue").substring(8).toInt();
-  
-
-  Serial.println(hh);
-  Serial.println(mm);
-  Serial.println(dd);
-  Serial.println(mo);
-  Serial.println(yyyy);
-  
-  saveConfig();
+  setTime(hh,mm,00,dd,mo,yyyy);
+    
+  //saveConfig();
   server.send(200, "text/plain", "Сохранено!"); // отправляем ответ о выполнении
 }
 
