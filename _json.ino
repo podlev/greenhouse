@@ -33,6 +33,9 @@ bool loadConfig() {
     waterStopH = root["waterStopH"];
     waterStartM = root["waterStartM"];
     waterStopM = root["waterStopM"];
+
+    period = root["period"];
+    
     lightStartH = root["lightStartH"];
     lightStopH = root["lightStopH"];
     lightStartM = root["lightStartM"];
@@ -49,11 +52,16 @@ bool saveConfig() {
   // Заполняем поля json 
   json["ssid"] = ssid;
   json["password"] = password;
+  
   json["timeZone"] = timeZone;
+  
   json["waterStartH"] = waterStartH;
   json["waterStopH"] = waterStopH;
   json["waterStartM"] = waterStartM;
   json["waterStopM"] = waterStopM;
+  
+  json["period"] = period;
+  
   json["lightStartH"] = lightStartH;
   json["lightStopH"] = lightStopH;
   json["lightStartM"] = lightStartM;

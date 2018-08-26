@@ -1,25 +1,37 @@
 void checkLightWater() {
   if (hour() >= lightStartH && hour() <= lightStopH) {
     if (minute() >= lightStartM && minute() <= lightStopM) {
-      functionLightOn();      
+      lightStatus = 0;
+      digitalWrite(lightPin, lightStatus);  
+      PRINTLOG("LIGHT is ON!"); 
     }
     else {
-      functionLightOff();
+      lightStatus = 1;
+      digitalWrite(lightPin, lightStatus);
+      PRINTLOG("LIGHT is OFF!");
     }
   }
   else {
-    functionLightOff();
+    lightStatus = 1;
+    digitalWrite(lightPin, lightStatus);
+    PRINTLOG("LIGHT is OFF!");
   }
-  if (hour() >= waterStartH && hour() <= waterStopH) {
+  if (hour() >= waterStartH && hour() <= waterStopH && (hour() % period == 0)) {
     if (minute() >= waterStartM && minute() <= waterStopM) {
-       functionWaterOn();
+       waterStatus = 0;
+       digitalWrite(waterPin, waterStatus);
+       PRINTLOG("WATER is ON!");
     }
     else {
-       functionWaterOff();
+       waterStatus = 1;
+       digitalWrite(waterPin, waterStatus);
+       PRINTLOG("WATER is OFF!");
     }
   }
   else {
-    functionWaterOff();
+    waterStatus = 1;
+    digitalWrite(waterPin, waterStatus);
+    PRINTLOG("WATER is OFF!");
   }
 }
 
@@ -40,12 +52,12 @@ void functionLightOn() {
 void functionWaterOff() {
     waterStatus = 1;
     digitalWrite(waterPin, waterStatus);
-    server.send(200, "text/plain", "Орошение выключено!"); // отправляем ответ о выполнении
+    server.send(200, "text/plain", "Полив выключено!"); // отправляем ответ о выполнении
     PRINTLOG("WATER is OFF!");
 }
 void functionWaterOn() {
     waterStatus = 0;
     digitalWrite(waterPin, waterStatus);
-    server.send(200, "text/plain", "Орошение включено!"); // отправляем ответ о выполнении
+    server.send(200, "text/plain", "Полив включен!"); // отправляем ответ о выполнении
     PRINTLOG("WATER is ON!");
 }

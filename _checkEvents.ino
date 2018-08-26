@@ -13,20 +13,30 @@ void checkEvents() {
     if (NOWMINUTE != minute()) {
        if (hour() >= lightStartH && hour() <= lightStopH) {
            if (minute() == lightStartM) {
-              functionLightOn();
+              lightStatus = 0;
+              digitalWrite(lightPin, lightStatus);  
+              PRINTLOG("LIGHT is ON!"); 
            }
            if (minute() == lightStopM + 1) {
-              functionLightOff();
+              lightStatus = 1;
+              digitalWrite(lightPin, lightStatus);  
+              PRINTLOG("LIGHT is OFF!"); 
            }
        }
-       if (hour() >= waterStartH && hour() <= waterStopH) {
+       if (hour() >= waterStartH && hour() <= waterStopH && (hour() % period == 0)) {
            if (minute() == waterStartM) {
-              functionWaterOn();
+              waterStatus = 0;
+              digitalWrite(waterPin, waterStatus);
+              PRINTLOG("WATER is ON!");
            }
            if (minute() == waterStopM + 1) {
-              functionWaterOff();
+              waterStatus = 1;
+              digitalWrite(waterPin, waterStatus);
+              PRINTLOG("WATER is OFF!");
+              
            }
        }
+       temperature();
        NOWMINUTE = minute();
     }
 }

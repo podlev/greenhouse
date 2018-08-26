@@ -41,7 +41,7 @@ String getContentType(String filename){
 }
 
 bool handleFileRead(String path){
-  Serial.println("handleFileRead: " + path);
+  //Serial.println("handleFileRead: " + path);
   if(path.endsWith("/")) path += "index.htm";
   String contentType = getContentType(path);
   String pathWithGz = path + ".gz";
@@ -111,7 +111,7 @@ void handleFileList() {
   if(!server.hasArg("dir")) {server.send(500, "text/plain", "BAD ARGS"); return;}
   
   String path = server.arg("dir");
-  Serial.println("handleFileList: " + path);
+  //Serial.println("handleFileList: " + path);
   Dir dir = SPIFFS.openDir(path);
   path = String();
 

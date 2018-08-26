@@ -32,20 +32,31 @@ void settings() {
     JsonObject& json = jsonBuffer.parseObject(root);
     json["ssid"] = ssid;
     json["password"] = password;
+    
     json["day"] = toFormat(day());
     json["month"] = toFormat(month());
     json["year"] = year();
+    
     json["hour"] = toFormat(hour());
     json["minute"] = toFormat(minute());
+    
     json["timeZone"] = timeZone;
+
+    json["valueT"] = valueT;
+    json["valueH"] = valueH;
+    
     json["waterStartH"] = waterStartH;
     json["waterStopH"] = waterStopH;
     json["waterStartM"] = waterStartM;
     json["waterStopM"] = waterStopM;
+    
+    json["period"] = period;
+    
     json["lightStartH"] = lightStartH;
     json["lightStopH"] = lightStopH;
     json["lightStartM"] = lightStartM;
     json["lightStopM"] = lightStopM;
+    
     if (lightStatus == 1) {
       json["lightStatus"] = "Оcвещение выключено.";
     }
@@ -75,6 +86,7 @@ void updateWaterLight() {
   waterStartM = server.arg("waterStartM").toInt();
   waterStopM = server.arg("waterStopM").toInt();
   
+  period = server.arg("period").toInt();
   
   checkLightWater();
   saveConfig();

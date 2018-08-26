@@ -3,9 +3,40 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
-  <link rel="stylesheet" type="text/css" href="/style.css">
   <script type="text/javascript" src="/function.js"></script>
   <title>GreenHouse</title>
+  <style>
+  body {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	
+ }
+
+ div {
+ font-size: 200%;
+	position: absolute; 
+    width: 70%;
+    left: 10%; /* Положение слоя от левого края */
+	background-color:#eeeeee;
+	box-shadow:10px 10px 50px rgba(0, 0, 0, 0.5);
+	padding:20px;
+	margin:20px;
+	float:left;
+	border-radius:10px;
+ }
+
+	input {
+	font-size: 100%;
+	padding:5px; border:2px solid #ccc; 
+	-webkit-border-radius: 5px;
+    border-radius: 5px;
+
+	}
+
+	input[type=text]:focus {
+	border-color:#666; 
+	}
+
+  </style>
   <script type="text/javascript">
 	function restart(submit) {
 		if (confirm('Потребуется перезагрузка. Ок?')) {
@@ -20,14 +51,14 @@
 	function updateTimeM(submit) {
 		server = "/updateTimeM?dateValue=" + val("dateValue") + "&timeValue=" + val("timeValue") + "&timeZone=" + val("timeZone");
 		send_request(submit,server);
-		document.getElementById('updateTimeM').innerHTML = 'Сохранить настройки';
-		load();
+		//document.getElementById('updateTimeM').innerHTML = 'Сохранить настройки';
+		//load();
 	}
   
     function updateSettings(submit){
     server = '/updateSettings?ssid=' + val('ssid') + '&password=' + encodeURIComponent(val('password'));
 	send_request(submit,server);
-    document.getElementById('updateSettings').innerHTML = 'Сохранить настройки';
+    //document.getElementById('updateSettings').innerHTML = 'Сохранить настройки';
 	load();
 	}
   
@@ -36,8 +67,9 @@
 	server = server + '&lightStartM=' + val('lightStartM') + '&lightStopM=' + val('lightStopM');
 	server = server + '&waterStartH=' + val('waterStartH') + '&waterStopH=' + val('waterStopH');
 	server = server + '&waterStartM=' + val('waterStartM') + '&waterStopM=' + val('waterStopM');
+	server = server + '&period=' + val('period');
     send_request(submit,server);
-    document.getElementById('updateWaterLight').innerHTML = 'Сохранить настройки';
+    //document.getElementById('updateWaterLight').innerHTML = 'Сохранить настройки';
 	load();
 	}
 
@@ -71,17 +103,19 @@
 <div>
 	<h1>Настройки</h1>
 	<p>Имя WIFI <input id="ssid" type="text" value="{{ssid}}"></p>
-	<p>Пароль WIFI <input id="password" type="password" value="{{password}}"></p>
+	<p>Пароль WIFI <input id="password" type="text" value="{{password}}"></p>
 	<p><input id="updateSettings" type="submit" value="Сохранить настройки" onclick="updateSettings(this);"></p>
 	<p>Дата <input id="dateValue" type="date" value="{{year}}-{{month}}-{{day}}"></p>
 	<p>Время <input id="timeValue" type="time" value="{{hour}}:{{minute}}"></p>
 	<p>Временная зона <input id="timeZone" type="text" value="{{timeZone}}"></p>
 	<p><input id="updateTimeM" type="submit" value="Сохранить настройки" onclick="updateTimeM(this);"></p>
 	<h1>Управление</h1>
+	<p>Температура <span id="valueT"><strong>{{valueT}}</strong></span>°C</p>
+	<p>Влажность <span id="valueH"><strong>{{valueH}}</strong></span>%</p>
 	
 	
-	<p id="lightStatus">{{lightStatus}}</p>
-	<p id="waterStatus">{{waterStatus}}</p>
+	<strong><p id="lightStatus">{{lightStatus}}</p>
+	<p id="waterStatus">{{waterStatus}}</p></strong>
 	
 	<p><input type="submit" value="Включить освещение" onclick="functionLightOn(this);">
 	<input type="submit" value="Выключить освещение" onclick="functionLightOff(this);"></p>
@@ -94,8 +128,9 @@
 	<h3>Интервалы работы полива</h3>
 	<p>Часы <input id="waterStartH" size="2" type="text" value="{{waterStartH}}"> : <input id="waterStopH" size="2" type="text" value="{{waterStopH}}">
 	Минуты <input id="waterStartM" size="2" type="text" value="{{waterStartM}}"> : <input id="waterStopM" size="2" type="text" value="{{waterStopM}}"></p>
+	<p>Период работы: <input id="period" size="2" type="text" value="{{period}}"> </p>
 	<p><input id="updateWaterLight" type="submit" value="Сохранить настройки" onclick="updateWaterLight(this);"></p>
-	<p><input id="restartDevice" type="submit" value="Перезагрузить устройство" onclick="restart	(this);"></p>
+	<p><input id="restartDevice" type="submit" value="Перезагрузить устройство" onclick="restart(this);"></p>
 </div>
 </body>
 </html>

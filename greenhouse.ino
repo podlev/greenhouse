@@ -9,9 +9,10 @@
 #include <ESP8266mDNS.h>
 #include <FS.h>
 #include <ArduinoJson.h> 
+#include <TroykaDHT11.h>
 
 File fsUploadFile;
-
+DHT11 dht(D4);
 ESP8266WebServer server(80);
 
 
@@ -30,11 +31,15 @@ byte lightStopM = 60;
 //интервал полива
 byte waterStartH = 0; 
 byte waterStopH = 23;
+byte period = 1;
 byte waterStartM = 0; 
 byte waterStopM = 10;
 
 byte lightStatus;
 byte waterStatus;
+
+byte valueT = -1;
+byte valueH = -1;
 
 byte NOWDAY;
 byte NOWHOUR;
@@ -48,7 +53,7 @@ void setup() {
     digitalWrite(waterPin, 1);
     //Монитор порта
     Serial.begin(115200);
-    
+    dht.begin();
     spiffsStart();
     loadConfig();
     wifiSetup();
