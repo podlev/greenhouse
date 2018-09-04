@@ -3,6 +3,7 @@
 <html>
 <head>
   <meta http-equiv="Content-type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <script type="text/javascript" src="/function.js"></script>
   <title>GreenHouse</title>
   <style>
@@ -14,13 +15,11 @@
  div {
  font-size: 100%;
 	position: relative; 
-    width: 70%;
-    left: 10%; /* Положение слоя от левого края */
+    width: 80%;
+	margin: auto;
 	background-color:#eeeeee;
 	box-shadow:10px 10px 50px rgba(0, 0, 0, 0.5);
 	padding:20px;
-	margin:20px;
-	float:left;
 	border-radius:10px;
  }
 
@@ -59,7 +58,7 @@
     server = '/updateSettings?ssid=' + val('ssid') + '&password=' + encodeURIComponent(val('password'));
 	send_request(submit,server);
     //document.getElementById('updateSettings').innerHTML = 'Сохранить настройки';
-	load();
+	//load();
 	}
   
    function updateWaterLight(submit){
@@ -70,7 +69,7 @@
 	server = server + '&period=' + val('period');
     send_request(submit,server);
     //document.getElementById('updateWaterLight').innerHTML = 'Сохранить настройки';
-	load();
+	//load();
 	}
 
 	function functionLightOn(submit){
@@ -103,7 +102,7 @@
 <div>
 	<h1>Настройки</h1>
 	<p>Имя WIFI <input id="ssid" type="text" value="{{ssid}}"></p>
-	<p>Пароль WIFI <input id="password" type="text" value="{{password}}"></p>
+	<p>Пароль WIFI <input id="password" type="password" value="{{password}}"></p>
 	<p><input id="updateSettings" type="submit" value="Сохранить настройки" onclick="updateSettings(this);"></p>
 	<p>Дата <input id="dateValue" type="date" value="{{year}}-{{month}}-{{day}}"></p>
 	<p>Время <input id="timeValue" type="time" value="{{hour}}:{{minute}}"></p>
