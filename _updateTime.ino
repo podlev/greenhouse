@@ -14,12 +14,10 @@ void updateTime()
   Udp.begin(localPort);
   setSyncProvider(getNtpTime);
   setSyncInterval(300);
-
-  if (timeStatus() != timeNotSet)  {
-    Serial.println("Connetcted to NTP");
-  }
-  else {
-    Serial.println("Not connected to NTP");
+  byte tries = 20;
+  while (timeStatus() == timeNotSet && tries--)  {
+    delay(500);
+    Serial.print(".");
   }
 }
 
@@ -50,6 +48,7 @@ time_t getNtpTime()
       secsSince1900 |= (unsigned long)packetBuffer[41] << 16;
       secsSince1900 |= (unsigned long)packetBuffer[42] << 8;
       secsSince1900 |= (unsigned long)packetBuffer[43];
+      Serial.println("Time update OK!");
       return secsSince1900 - 2208988800UL + timeZone * SECS_PER_HOUR;
     }
   }

@@ -55,6 +55,7 @@ void setup() {
     Serial.begin(115200);
     dht.begin();
     spiffsStart();
+    saveConfig();
     loadConfig();
     wifiSetup();
     updateTime();
