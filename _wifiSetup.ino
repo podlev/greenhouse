@@ -1,6 +1,6 @@
 bool wifiSetup() {
   WiFi.mode(WIFI_STA);
-  byte tries = 20;
+  byte tries = 40;
   WiFi.begin(ssid.c_str(), password.c_str());
   Serial.print("Connect to WiFi ");
   while (WiFi.status() != WL_CONNECTED  && tries--) {
@@ -8,6 +8,7 @@ bool wifiSetup() {
     Serial.print(".");
   }
   Serial.println();
+  
   if (WiFi.status() != WL_CONNECTED) {
     Serial.println("Not connected. Start in setup mode. Connect to 192.168.4.1");
     IPAddress apIP(192, 168, 4, 1);

@@ -55,9 +55,9 @@ void setup() {
     Serial.begin(115200);
     dht.begin();
     spiffsStart();
-    saveConfig();
     loadConfig();
     wifiSetup();
+    delay(1000);
     updateTime();
     serverStart();
     
@@ -70,6 +70,10 @@ void setup() {
 
 
 void loop() {
-   checkEvents();
+   if (NOWMINUTE != minute()) {
+       temperature();
+       checkLightWater();
+       NOWMINUTE = minute();
+    }
    server.handleClient();
 }

@@ -10,7 +10,7 @@ void spiffsStart() {
     Serial.printf("\n");
   }
 }
-//format bytes
+
 String formatBytes(size_t bytes){
   if (bytes < 1024){
     return String(bytes)+"B";

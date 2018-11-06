@@ -1,63 +1,51 @@
 void checkLightWater() {
   if (hour() >= lightStartH && hour() <= lightStopH) {
     if (minute() >= lightStartM && minute() <= lightStopM) {
-      lightStatus = 0;
-      digitalWrite(lightPin, lightStatus);  
-      PRINTLOG("LIGHT is ON!"); 
+      functionLightOn();
     }
     else {
-      lightStatus = 1;
-      digitalWrite(lightPin, lightStatus);
-      PRINTLOG("LIGHT is OFF!");
+      functionLightOff();
     }
   }
   else {
-    lightStatus = 1;
-    digitalWrite(lightPin, lightStatus);
-    PRINTLOG("LIGHT is OFF!");
+    functionLightOff();
   }
   if (hour() >= waterStartH && hour() <= waterStopH && (hour() % period == 0)) {
     if (minute() >= waterStartM && minute() <= waterStopM) {
-       waterStatus = 0;
-       digitalWrite(waterPin, waterStatus);
-       PRINTLOG("WATER is ON!");
+       functionWaterOn();
     }
     else {
-       waterStatus = 1;
-       digitalWrite(waterPin, waterStatus);
-       PRINTLOG("WATER is OFF!");
+       functionWaterOff();
     }
   }
   else {
-    waterStatus = 1;
-    digitalWrite(waterPin, waterStatus);
-    PRINTLOG("WATER is OFF!");
+    functionWaterOff();
   }
 }
 
 void functionLightOff() {
     lightStatus = 1;
     digitalWrite(lightPin, lightStatus);
-    server.send(200, "text/plain", "Свет выключен!"); // отправляем ответ о выполнении
-    PRINTLOG("LIGHT is OFF!");
+    server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+    printlog("light is Off");
 }
   
 void functionLightOn() {
     lightStatus = 0;
     digitalWrite(lightPin, lightStatus);
-    server.send(200, "text/plain", "Свет включен!"); // отправляем ответ о выполнении
-    PRINTLOG("LIGHT is ON!");
+    server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+    printlog("light is On");
 }
 
 void functionWaterOff() {
     waterStatus = 1;
     digitalWrite(waterPin, waterStatus);
-    server.send(200, "text/plain", "Полив выключено!"); // отправляем ответ о выполнении
-    PRINTLOG("WATER is OFF!");
+    server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+    printlog("water is Off");
 }
 void functionWaterOn() {
     waterStatus = 0;
     digitalWrite(waterPin, waterStatus);
-    server.send(200, "text/plain", "Полив включен!"); // отправляем ответ о выполнении
-    PRINTLOG("WATER is ON!");
+    server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
+    printlog("water is On");
 }

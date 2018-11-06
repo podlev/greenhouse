@@ -9,18 +9,23 @@ String toFormat(int value) {
 
 void updateTimeM() {
   timeZone = server.arg("timeZone").toInt();
-  Serial.println(server.arg("timeValue"));
-  Serial.println(server.arg("dateValue"));
+  //Serial.println(server.arg("timeValue"));
+  //Serial.println(server.arg("dateValue"));
   byte hh = server.arg("timeValue").substring(0,2).toInt();
   byte mm = server.arg("timeValue").substring(3,5).toInt();
-  byte dd = server.arg("dateValue").substring(0,4).toInt();
+  byte yyyy = server.arg("dateValue").substring(0,4).toInt();
   byte mo = server.arg("dateValue").substring(5,7).toInt();
-  byte yyyy = server.arg("dateValue").substring(8).toInt();
+  byte dd = server.arg("dateValue").substring(8).toInt();
+
   
-  Serial.println("Update time............");
+  Serial.print(hh);
+  Serial.print(mm);
+  Serial.print(dd);
+  Serial.print(mo);
+  Serial.print(yyyy);
   delay(1000);
-  
-  //saveConfig();
+  setTime(hh,mm,0,dd,mo,yyyy);
+  saveConfig();
   server.send(200, "text/plain", "Сохранено!"); // отправляем ответ о выполнении
 }
 
@@ -93,7 +98,7 @@ void updateWaterLight() {
   
   checkLightWater();
   saveConfig();
-  server.send(200, "text/plain", "Сохранено!"); // отправляем ответ о выполнении
+  server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
 }
 
 
@@ -101,7 +106,7 @@ void updateSettings() {
   ssid =  server.arg("ssid");
   password = server.arg("password");
   saveConfig();
-  server.send(200, "text/plain", "Сохранено!"); // отправляем ответ о выполнении
+  server.send(200, "text/plain", "OK"); // отправляем ответ о выполнении
 }
 
 void restartDevice  () {

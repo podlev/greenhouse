@@ -14,11 +14,6 @@ void updateTime()
   Udp.begin(localPort);
   setSyncProvider(getNtpTime);
   setSyncInterval(300);
-  byte tries = 20;
-  while (timeStatus() == timeNotSet && tries--)  {
-    delay(500);
-    Serial.print(".");
-  }
 }
 
 const int NTP_PACKET_SIZE = 48; // NTP time is in the first 48 bytes of message
@@ -37,7 +32,7 @@ time_t getNtpTime()
  // Serial.println(ntpServerIP);
   sendNTPpacket(ntpServerIP);
   uint32_t beginWait = millis();
-  while (millis() - beginWait < 1500) {
+  while (millis() - beginWait < 5000) {
     int size = Udp.parsePacket();
     if (size >= NTP_PACKET_SIZE) {
       //Serial.println("Receive NTP Response");

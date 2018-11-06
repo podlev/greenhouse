@@ -1,16 +1,17 @@
-void PRINTLOG (String message) {
+void printlog (String message) {
   printtime();
+  //time_t t = now();
+  //Serial.println(t);
   Serial.println(message);
 }
 
 void printtime() {
-  Serial.print("Date: ");
   Serial.print(day());
   Serial.print(".");
   Serial.print(month());
   Serial.print(".");
   Serial.print(year());
-  Serial.print(" Time: ");
+  Serial.print(" ");
   Serial.print(hour());
   Serial.print(":");
   Serial.print(minute());
